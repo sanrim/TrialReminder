@@ -1,0 +1,35 @@
+﻿@model TrialSummaryModel
+
+<h2>Your Trials</h2>
+
+
+    @foreach (var trial in Model.Trials)
+    {
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@trial.ServiceName</h5>
+                <h6 class="card-subtitle mb-2 text-muted">You have a trial at @trial.ServiceName</h6>
+                <h6 class="card-subtitle mb-2 text-muted">They are at @trial.Url</h6>
+                @if (trial.HasStartDate)
+                {
+                    <p>Your trial started on @trial.StartDate.ToShortDateString()</p>
+                }
+                @if (trial.HasEndDate)
+                {
+                    <p>Your trial ends on @trial.EndDate.ToShortDateString()</p>
+                }
+            <form method="post" asp-controller="Trials" asp-action="Cancel" asp-route-id="@trial.Id">
+                <button class="btn btn-link" type="submit">I've Cancelled This</button>
+            </form>
+            </div>
+        </div>
+    }
+
+<div class="alert alert-info">
+    <h4>You have @Model.NumberOfCurrentTrials current trial(s).</h4>
+    <h4>You have @Model.NumberOfExpiredTrials expired trial(s).</h4>
+</div>
+
+<div>
+    <a class="btn btn-primary" asp-controller="Trials" asp-action="New">Add Another Service</a>
+</div>
